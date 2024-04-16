@@ -23,7 +23,9 @@ def generate_documentation(prompt):
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt}
         ])
-        return response.choices[0].message.content.strip()
+        generated_doc = response.choices[0].message.content.strip()
+        print("Generated Documentation:", generated_doc)
+        return generated_doc
     except Exception as e:
         print(f"An error occurred: {e}")
         return "Documentation generation failed."
@@ -45,20 +47,20 @@ def add_docstrings_python(filepath):
         function_lines = []
         for line in lines[start_line:]:
             function_lines.append(line)
-            if line.strip().startswith("def ") or "return" in line:
+            if line.strip().startswith("def ") or line.strip().startswith("class ") or "return" in line:
                 break
         function_text = "".join(function_lines)
-        description = "Provide a concise summary for this Python function."
+        function_name = function_text.split("(")[0].split("def ")[1].strip()
+        description = f"Summarize the functionality of the Python function '{function_name}'."
         docstring = generate_documentation(description)
         docstring_formatted = f'"""{docstring}"""\n'
-        lines.insert(start_line + 1, docstring_formatted) 
+        lines.insert(start_line + 1, docstring_formatted)
 
     new_source = "".join(lines)
     with open(output_filepath, "w") as file:
         file.write(new_source)
 
     return output_filepath
-
 
 def add_javadocs_java(filepath):
     """Reads a Java file, adds Javadoc comments to methods."""
@@ -74,7 +76,9 @@ def add_javadocs_java(filepath):
             method_signature = line.strip()
             description = f"""Write a detailed but concise Javadoc comment for the following 
             Java method: {method_signature}"""
+            print("Method Signature:", method_signature)
             javadoc = generate_documentation(description)
+            print("Generated Javadoc:", javadoc)
             new_lines.append(javadoc + "\n")  
         new_lines.append(line)
 
