@@ -14,8 +14,8 @@ This project focuses on the development of an Auto Documentation tool, designed 
 
 ## Project Deliverables
 
-- **Milestones:** Includes all project milestones leading up to 4.2.
+- **Milestones:** Includes all project milestones in their respective folders leading up to 4.2.
 
 ## Usage
 
-Refer to `doc_generator.py` for script execution. An OpenAI API key will need to be provided in a separate config file for the script to run, we didn't include ours for security reasons.
+Refer to `doc_generator.py` for script execution. An OpenAI API key will need to be provided in a separate config file for the script to run.
